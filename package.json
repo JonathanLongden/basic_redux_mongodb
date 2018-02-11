@@ -1,11 +1,11 @@
 {
-  "name": "hlrdesignbuild",
+  "name": "basic_redux_mongodb",
   "version": "1.0.0",
   "description": "Example on using create-react-app with a Node Express Backend",
   "author": {
-    "name": "Banna",
-    "email": "ComeGetPappyBear@gmail.com",
-    "url": "https://letstakeawalk.com"
+    "name": "Jonathan E. Longden",
+    "email": "longden.jonathanedgar@gmail.com",
+    "url": "www.jlongden.com"
   },
   "license": "None",
   "scripts": {
