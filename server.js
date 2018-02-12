@@ -3,7 +3,8 @@ const expressSession = require("express-session");
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser')
 const http = require('http'); 
-const app = require("express")(); 
+const app = require("express")();
+var config = require('./config.js');
 
 app.use(bodyParser.json()) // handle json data
 app.use(bodyParser.urlencoded({ extended: true })) // handle URL-encoded data
@@ -21,7 +22,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('public'));
 }
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 2000;
 
 var allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -37,7 +38,7 @@ var allowCrossDomain = function(req, res, next) {
   
 app.use(allowCrossDomain);
 
-const mailController = require('./contoller/mailController');
+//const mailController = require('./contoller/mailController');
 
 
 //This was only used as a Test
@@ -48,7 +49,7 @@ app.get('/api/hello', (req, res) => {
 
 //request -req
 //response - res
-router.post('/contact/email', mailController.sendMail);
+//router.post('/contact/email', mailController.sendMail);
 
 // app.post('/contact/email', (req, res) => {
 //   //console.log(response);
@@ -70,7 +71,14 @@ app.use(router)
 
 
 
+mongoose.connect(
+  //"mongodb://localhost:27017/sales"
+  config.mongolab_uri
+);
 
+mongoose.connection.once('open', function() {
+  console.log('We have data');
+});
 
 
 //always at the end of functional code
