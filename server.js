@@ -2,6 +2,7 @@ const express = require('express');
 const expressSession = require("express-session");
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose');
 const http = require('http'); 
 const app = require("express")();
 var config = require('./config.js');
@@ -68,6 +69,24 @@ app.get('/api/hello', (req, res) => {
 // });
 
 app.use(router)
+
+var monsterControl = require('./controller/monsterController');
+
+
+//POST -- Create
+//GET  -- Read
+//PUT  -- Update/Replace
+//Patch -- Update/Modify
+//Delete -- Delete
+
+
+app.get('/monster', monsterControl.read);
+app.get('/monster/:id', cardControl.readById);
+app.get('/monster', cardControl.readByUser);
+app.put('/monster/:id', cardControl.update);
+app.delete('/monster/:id', cardControl.delete);
+
+
 
 
 
