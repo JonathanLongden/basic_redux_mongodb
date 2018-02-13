@@ -3,7 +3,11 @@ var monsterModel = require('./../model/monsterModel');
 
 module.exports = {
     create: function(req, res, next) {
-        req.body._user = req.user._id;
+        //req.body._user = req.user._id;
+        // console.log(req);
+        // console.log(res);
+        console.log(res.body);
+
         var Monster = new monsterModel(req.body);
 
         Monster.save(function(err, result) {
@@ -20,6 +24,7 @@ module.exports = {
         });
     },
     createbyself: function(req, res, next) {
+        console.log(res.body);
         var Monster = new monsterModel(req.body);
         Monster.save(function(err, result) {
             if (err) {

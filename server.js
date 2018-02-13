@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true })) // handle URL-encoded data
 app.use(express.static(__dirname+'/public'));
 
 var server = require('http').Server(app);
-const router = express.Router()
+const router = express.Router();
 
 app.use(bodyParser.json({ type: 'application/json' }));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -23,27 +23,26 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('public'));
 }
 
-const port = process.env.PORT || 2000;
 
-var allowCrossDomain = function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-  // intercept OPTIONS method
-  if ('OPTIONS' == req.method) {
-  res.sendStatus(200);
-  } else {
-  next();
-  }
-  };
+// var allowCrossDomain = function(req, res, next) {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+//   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+//   // intercept OPTIONS method
+//   if ('OPTIONS' == req.method) {
+//   res.sendStatus(200);
+//   } else {
+//   next();
+//   }
+//   };
   
-app.use(allowCrossDomain);
+// app.use(allowCrossDomain);
 
 //const mailController = require('./contoller/mailController');
 
 
 //This was only used as a Test
-app.get('/api/hello', (req, res) => {
+router.get('/api/hello', (req, res) => {
   res.send({ express: 'Hello From Express' });
 });
 
@@ -69,6 +68,10 @@ app.get('/api/hello', (req, res) => {
 // });
 
 app.use(router)
+//This was only used as a Test
+router.get('/api/hello', (req, res) => {
+  req.send({ express: 'Hello From Express' });
+});
 
 var monsterControl = require('./controller/monsterController');
 
@@ -81,15 +84,32 @@ var monsterControl = require('./controller/monsterController');
 
 
 app.get('/monster', monsterControl.read);
-app.get('/monster/:id', cardControl.readById);
-app.get('/monster', cardControl.readByUser);
-app.put('/monster/:id', cardControl.update);
-app.delete('/monster/:id', cardControl.delete);
+router.post('monster', monsterControl.createbyself);//createbyself
+app.get('/monster/:id', monsterControl.readById);
+app.get('/monster', monsterControl.readByUser);
+app.put('/monster/:id', monsterControl.update);
+app.delete('/monster/:id', monsterControl.delete);
 
 
+// var Monster = new monsterModel(req.body);
+//         console.log(Monster);
 
+//         Monster.save(function(err, result) {
+//             if (err) {
+//                 res.send(err);
+//             }
+//             //add sale id to req
+//             req.id = result._id;
+//             //call userControl.addSale
 
+//             console.log(req.user);
+//             next();
 
+//         });
+
+// mongoose.connect(config.mongolab_uri, function(err) {
+//   if (err) throw err;
+// });
 mongoose.connect(
   //"mongodb://localhost:27017/sales"
   config.mongolab_uri
@@ -98,9 +118,11 @@ mongoose.connect(
 mongoose.connection.once('open', function() {
   console.log('We have data');
 });
-
+// mongoose.connect(config.mongolab_uri, function(err) {
+//     if (err) throw err;
+// });
 
 //always at the end of functional code
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(config.port, () => console.log(`Listening on port ${config.port}`));
 
 

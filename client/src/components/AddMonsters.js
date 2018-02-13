@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class AddMonsters extends Component {
   constructor(props) {
@@ -32,8 +33,40 @@ class AddMonsters extends Component {
       age: this.state.age,
       weapons: this.state.weapon
     });
+    axios.post('/api/monster', {
+      name: this.state.name,
+      age: this.state.age,
+      weapon: this.state.weapon
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 
   }
+
+//   axios.post('/contact/email', this.prepareOptions()).then((respone) => {
+//     console.log(respone);
+//     })
+//   .catch((error) => {
+//     console.log(error);
+//   });
+// }
+
+
+// prepareOptions(){
+//   const createEmail = {
+//     firstName: this.state.email,
+//     lastName: this.state.lastName,
+//     email: this.state.email,
+//     message: this.state.message
+
+//   }
+//   return createEmail;
+//
+//}
 
   render() {
     let MonsterWeaponList = this.state.weapons.map((weapon, index) => {
