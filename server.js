@@ -1,11 +1,10 @@
 const express = require('express');
 const expressSession = require("express-session");
-const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const http = require('http'); 
 const app = require("express")();
-var config = require('./config.js');
+
 
 app.use(bodyParser.json()) // handle json data
 app.use(bodyParser.urlencoded({ extended: true })) // handle URL-encoded data
@@ -23,20 +22,21 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('public'));
 }
 
+var config = require('./config.js');
 
-// var allowCrossDomain = function(req, res, next) {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-//   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-//   // intercept OPTIONS method
-//   if ('OPTIONS' == req.method) {
-//   res.sendStatus(200);
-//   } else {
-//   next();
-//   }
-//   };
+var allowCrossDomain = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+  // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+      res.sendStatus(200);
+    } else {
+      next();
+    }
+  };
   
-// app.use(allowCrossDomain);
+app.use(allowCrossDomain);
 
 //const mailController = require('./contoller/mailController');
 
@@ -67,15 +67,12 @@ router.get('/api/hello', (req, res) => {
 //   res.send({ express: req.body});
 // });
 
-app.use(router)
-//This was only used as a Test
-router.get('/api/hello', (req, res) => {
-  req.send({ express: 'Hello From Express' });
-});
+
+
 
 var monsterControl = require('./controller/monsterController');
 
-
+app.use(router);
 //POST -- Create
 //GET  -- Read
 //PUT  -- Update/Replace
@@ -84,7 +81,7 @@ var monsterControl = require('./controller/monsterController');
 
 
 app.get('/monster', monsterControl.read);
-router.post('monster', monsterControl.createbyself);//createbyself
+app.post('/monster', monsterControl.create);
 app.get('/monster/:id', monsterControl.readById);
 app.get('/monster', monsterControl.readByUser);
 app.put('/monster/:id', monsterControl.update);
@@ -110,17 +107,21 @@ app.delete('/monster/:id', monsterControl.delete);
 // mongoose.connect(config.mongolab_uri, function(err) {
 //   if (err) throw err;
 // });
-mongoose.connect(
-  //"mongodb://localhost:27017/sales"
-  config.mongolab_uri
-);
 
-mongoose.connection.once('open', function() {
-  console.log('We have data');
-});
-// mongoose.connect(config.mongolab_uri, function(err) {
-//     if (err) throw err;
+
+
+
+// mongoose.connect(
+//   //"mongodb://localhost:27017/sales"
+//   config.mongolab_uri
+// );
+
+// mongoose.connection.once('open', function() {
+//   console.log('We have data');
 // });
+mongoose.connect(config.mongolab_uri, function(err) {
+    if (err) throw err;
+});
 
 //always at the end of functional code
 app.listen(config.port, () => console.log(`Listening on port ${config.port}`));

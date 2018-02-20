@@ -25,19 +25,25 @@ class AddMonsters extends Component {
     });
   }
 
+  newMonster(){
+    var monstercreate = {
+      name: this.state.name,
+      age: this.state.age,
+      weapon: this.state.weapon
+    }
+    return monstercreate;
 
+  }
   AddNewMonster(e){
     e.preventDefault();
+    //Calls Passdown Function Prop
     this.props.AddMonster({
       name: this.state.name,
       age: this.state.age,
       weapons: this.state.weapon
     });
-    axios.post('/api/monster', {
-      name: this.state.name,
-      age: this.state.age,
-      weapon: this.state.weapon
-    })
+   
+    axios.post('/monster', this.newMonster())
     .then(function (response) {
       console.log(response);
     })
@@ -47,26 +53,6 @@ class AddMonsters extends Component {
 
   }
 
-//   axios.post('/contact/email', this.prepareOptions()).then((respone) => {
-//     console.log(respone);
-//     })
-//   .catch((error) => {
-//     console.log(error);
-//   });
-// }
-
-
-// prepareOptions(){
-//   const createEmail = {
-//     firstName: this.state.email,
-//     lastName: this.state.lastName,
-//     email: this.state.email,
-//     message: this.state.message
-
-//   }
-//   return createEmail;
-//
-//}
 
   render() {
     let MonsterWeaponList = this.state.weapons.map((weapon, index) => {

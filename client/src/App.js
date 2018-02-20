@@ -17,7 +17,6 @@ class App extends Component {
         response: res.express 
       }))
       .catch(err => console.log(err));
-      console.log(this.state.response)
   }
 
   callApi = async () => {
@@ -31,7 +30,8 @@ class App extends Component {
 
 
   render() {
-    
+    //Lets me know if Express is Working
+    console.log(this.state.response)
     return (
       <div className="App">
         <header className="App-header">
