@@ -31,7 +31,7 @@ class App extends Component {
 
   render() {
     //Lets me know if Express is Working
-    console.log(this.state.response)
+    //console.log(this.state.response)
     return (
       <div className="App">
         <header className="App-header">
@@ -41,7 +41,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <ListMonsters readMonster ={this.props.readMonster} AddMonster = {this.props.addMonster} DeleteMonster={ this.props.DeleteMonster } />
+        <ListMonsters readMonster ={this.props.readMonster}  fetch ={this.props.fetch} AddMonster = {this.props.addMonster} DeleteMonster={ this.props.DeleteMonster } />
       </div>
     );
   }

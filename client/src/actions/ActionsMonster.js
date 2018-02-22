@@ -1,22 +1,38 @@
+import axios from 'axios';
+
 export const STANDARDS = {
   ADD_MONSTER :'ADD_MONSTER',
   DELETE_MONSTER : 'DELETE_MONSTER',
   UPDATE_MONSTER : 'UPDATE_MONSTER',
+  FETCH_MONSTER : 'FETCH_MONSTER',
+  FETCH_MONSTER_FULFILLED : 'FETCH_MONSTER_FULFILLED',
+  ADD_MONSTER_FULFILLED : 'ADD_MONSTER_FULFILLED',
+
 };
 
-export  function addMonster(monster) {
+//Get
+export function fetchMonsters() {
+  return {
+    type: STANDARDS.FETCH_MONSTER,
+    payload: axios.get('/monster')
+  };
+}
+//Create
+export function addMonster(monster) {
   console.log(monster);
   return {
     type: STANDARDS.ADD_MONSTER,
-    monster: Object.assign({}, monster)
-  }
+    payload: axios.post('/monster', monster)
+  };
 }
-
-export function deleteMonster(id) {
+//Delete
+export function deleteMonster(_id) {
+  console.log(_id);
   return {
     type: STANDARDS.DELETE_MONSTER,
-    id: id
-  }
+    _id: _id,
+    payload: axios.delete('/monster/' + _id._id)
+  };
 }
 
 export function updateMonster(monster) {
@@ -24,9 +40,18 @@ export function updateMonster(monster) {
   return {
     type: STANDARDS.UPDATE_MONSTER,
     monster: monster
-  }
+  };
 }
+// export function updateDog(id, dog) {
+//   return {
+//     type: UPDATE_DOG,
+//     id: id, 
+//     dog: dog
+//   }
+// }
 
 
-//https://codereview.stackexchange.com/questions/126574/crud-application-using-react-redux
+
+
+
 

@@ -9,24 +9,29 @@ class ListMonsters extends Component {
         }
     }
 
-  DeleteThisMonster(id) {
+  componentWillMount() {
+    this.props.fetch()
+  }
+
+  deleteMonsterById(_id) {
     this.props.DeleteMonster({
-      id
+      _id
     });
   }
+  
 
 
   render() {
     let MonsterList =  this.props.readMonster.map((monster) => {
       return (
-        <li key={monster.id}>
+        <li key={monster._id}>
             <ul> Name: {monster.name} </ul>
             <ul> Age : {monster.age}  </ul>
             <ul> Weapon : {monster.weapon} </ul> 
             <br/>
             <Link to={'/monster/' + monster.id } monster={monster}>Monster Details</Link>
             <br/>
-            <button onClick={this.DeleteThisMonster.bind(this, monster.id)}className="btn btn-success">Delete</button>      
+            <button onClick={this.deleteMonsterById.bind(this, monster._id)}className="btn btn-success">Delete</button>      
         </li>
       )
     });

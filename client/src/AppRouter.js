@@ -14,8 +14,9 @@ class AppRouter extends Component {
 		this.state = {
 			create: this.props.actions.addMonster,
 			update: this.props.actions.updateMonster,
-			delete: this.props.actions.deleteMonster
-		}
+			delete: this.props.actions.deleteMonster,
+			fetch: this.props.actions.fetchMonsters			
+		};
 	}
 
 	render() {
@@ -23,8 +24,8 @@ class AppRouter extends Component {
 		return (
 			<div>
 				<BrowserRouter>
-					<Switch>UpdateMonsterStuff
-						<Route exact path="/" render={ ({ match, history }) => <App match={ match } history={ history } readMonster ={this.props.Monsters} addMonster={ this.state.create } DeleteMonster={ this.state.delete }/>} />
+					<Switch>
+						<Route exact path="/" render={ ({ match, history }) => <App match={ match } history={ history } fetch={ this.state.fetch } readMonster ={this.props.Monsters} addMonster={ this.state.create } DeleteMonster={ this.state.delete }/>} />
 						<Route exact path="/monster/:id" render={ ({ match, history }) => <MonsterId match={ match } history={ history } readMonster ={this.props.Monsters}/>} />
 						<Route exact path="/monster/update/:id" render={ ({ match, history }) => <UpdateMonster match={ match } history={ history }  readMonster ={this.props.Monsters} UpdateMonsterStuff={ this.state.update } />} />
 					</Switch>
@@ -36,7 +37,7 @@ class AppRouter extends Component {
 }
 
 const mapStateToProps = state => ({
-	Monsters: state.Monsters
+	Monsters: state.Monsters.Monsters
 
 })
 

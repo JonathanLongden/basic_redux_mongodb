@@ -13,8 +13,7 @@ class AddMonsters extends Component {
         'Spike Club',
         'Rusty Sword'
       ]
-    }
-    console.log(props)
+    };
     this.AddNewMonster = this.AddNewMonster.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -25,15 +24,6 @@ class AddMonsters extends Component {
     });
   }
 
-  newMonster(){
-    var monstercreate = {
-      name: this.state.name,
-      age: this.state.age,
-      weapon: this.state.weapon
-    }
-    return monstercreate;
-
-  }
   AddNewMonster(e){
     e.preventDefault();
     //Calls Passdown Function Prop
@@ -42,15 +32,6 @@ class AddMonsters extends Component {
       age: this.state.age,
       weapons: this.state.weapon
     });
-   
-    axios.post('/monster', this.newMonster())
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-
   }
 
 
